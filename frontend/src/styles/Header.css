@@ -1,0 +1,22 @@
+.register-btn {
+  background-color: rgb(10, 81, 195);
+  margin-right: 10px;
+  border-radius: 10% !important;
+}
+
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+.navbar-nav {
+  align-items: flex-end !important;
+}
+
+.login,
+.signup {
+  padding: 10px !important;
+  width: 100px;
+  margin: 3px;
+  border-radius: 5px !important;
+  text-align: center;
+}

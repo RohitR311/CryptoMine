@@ -1,0 +1,20 @@
+.coin-input::placeholder {
+  color: #e2e2e2;
+}
+
+.links {
+  margin: 20px 0 20px 0;
+  border-bottom: 1px solid gray;
+  width: fit-content;
+}
+.tab-link {
+  width: 150px;
+  margin: 0 25px 0 25px;
+  color: black;
+  padding: 10px 0 10px 0;
+  text-decoration: none;
+  text-align: center;
+}
+.tab-link.active {
+  border-bottom: 2px solid black;
+}
