@@ -1,7 +1,9 @@
 asgiref==3.4.1
 certifi==2021.5.30
 charset-normalizer==2.0.4
+cloudinary==1.26.0
 Django==3.2.6
+django-cloudinary-storage==0.3.0
 django-cors-headers==3.7.0
 djangorestframework==3.12.4
 djangorestframework-simplejwt==4.7.2
