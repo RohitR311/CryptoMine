@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Crypto
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField(read_only=True)
@@ -41,3 +41,9 @@ class CryptoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crypto
         fields = "__all__"
+
+
+class FavCoinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavCoin
+        fields = ("coin", )

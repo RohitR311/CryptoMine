@@ -9,4 +9,6 @@ urlpatterns = [
     path("login/", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("register/", createAccount, name="register"),
     path("cryptos/", getCsvs, name="coins"),
+    path("create/", createFavCoin, name="create_watchlist"), 
+    path("mywatchlist/", getMyFavCoins, name="watchlist"), 
 ]

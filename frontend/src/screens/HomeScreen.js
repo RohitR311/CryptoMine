@@ -163,7 +163,7 @@ function HomeScreen() {
           <Table striped hover responsive>
             <thead>
               <tr>
-                {/* <th class="sort-link"></th> */}
+                <th class="sort-link"></th>
                 <th className="sort-link" onClick={() => sortColumn(0)}>
                   #
                 </th>

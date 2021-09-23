@@ -2,6 +2,8 @@ import React from "react";
 import "../styles/Coin.css";
 import ChartProg from "./ChartProg";
 import getSymbolFromCurrency from "currency-symbol-map";
+import StarOutlineIcon from '@material-ui/icons/StarOutline';
+import StarIcon from '@material-ui/icons/Star';
 // import "../starability.min.css";
 
 const Coin = ({
@@ -20,23 +22,7 @@ const Coin = ({
 }) => {
   return (
     <tr key={_id}>
-      {/* <td className="starability">
-        <fieldset className="starability-basic">
-          <input
-            type="checkbox"
-            id="rate"
-            className="input-no-rate"
-            name="rating"
-            value="0"
-            checked
-            aria-label="No rating."
-          />
-          <input type="checkbox" id="first-rate1" name="rating" value="0" />
-          <label for="first-rate1" title="Add to Main Watchlist">
-            1 star
-          </label>
-        </fieldset>
-      </td> */}
+      <td className="starability"><StarIcon /></td>
       <td>{_id}</td>
       <td className="coin">
         <img src={image} alt="" />
