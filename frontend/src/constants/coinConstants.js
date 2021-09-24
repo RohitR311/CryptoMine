@@ -1,3 +1,7 @@
 export const COIN_DATA_REQUEST = "COIN_DATA_REQUEST";
 export const COIN_DATA_SUCCESS = "COIN_DATA_SUCCESS";
 export const COIN_DATA_FAILURE = "COIN_DATA_FAILURE";
+
+export const GET_FAV_COINS = "GEET_FAV_COINS";
+export const REMOVE_FAV_COIN = "REMOVE_FAV_COIN";
+export const FAV_COINS = "FAV_COINS";

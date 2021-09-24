@@ -2,8 +2,11 @@ import React from "react";
 import "../styles/Coin.css";
 import ChartProg from "./ChartProg";
 import getSymbolFromCurrency from "currency-symbol-map";
-import StarOutlineIcon from '@material-ui/icons/StarOutline';
-import StarIcon from '@material-ui/icons/Star';
+import StarOutlineIcon from "@material-ui/icons/StarOutline";
+import StarIcon from "@material-ui/icons/Star";
+import { updateFavCoins } from "../actions/coinActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 // import "../starability.min.css";
 
 const Coin = ({
@@ -19,10 +22,26 @@ const Coin = ({
   circulatingsupply,
   graphdata,
   code,
+  coin_id,
+  isFav,
 }) => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  const history = useHistory();
+  const redirectToLogin = () => {
+    if (userInfo) dispatch(updateFavCoins(coin_id));
+    else history.push("/login");
+  };
   return (
     <tr key={_id}>
-      <td className="starability"><StarIcon /></td>
+      <td className="starability">
+        {!isFav ? (
+          <StarOutlineIcon onClick={() => redirectToLogin()} />
+        ) : (
+          <StarIcon onClick={() => redirectToLogin()} />
+        )}
+      </td>
       <td>{_id}</td>
       <td className="coin">
         <img src={image} alt="" />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Coin from "../components/Coin";
 import "../styles/HomeScreen.css";
 import { Dropdown, Form, Table } from "react-bootstrap";
-import { listCoins } from "../actions/coinActions";
+import { getFavCoins, listCoins } from "../actions/coinActions";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +19,10 @@ function HomeScreen() {
   const [pageSize, setPageSize] = useState(10);
   const dispatch = useDispatch();
   const coinList = useSelector((state) => state.coinList);
-  const { error, loading, coins } = coinList;
+  const { error, loading, coins, fav_coins } = coinList;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const [sortType, setSortType] = useState("Asc");
   const [filteredCoins, setFilteredCoins] = useState([]);
@@ -27,15 +30,38 @@ function HomeScreen() {
   const [global, setGlobal] = useState({});
 
   useEffect(() => {
+    if (userInfo) dispatch(getFavCoins());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(listCoins(page, currencyCode, pageSize));
   }, [dispatch, page, currencyCode, pageSize]);
+
+  useEffect(() => {
+    for (let coin of coins) {
+      coin["isFav"] = false;
+    }
+    setFilteredCoins(coins);
+  }, [userInfo, fav_coins])
 
   useEffect(() => {
     let filterCoins = coins.filter((coin) =>
       coin.name.toLowerCase().includes(search.toLowerCase())
     );
+
+    if (fav_coins.length) {
+      
+      for (let fav of fav_coins) {
+        for (let coin of filterCoins) {
+          if (fav.coin === coin.id) {
+            coin["isFav"] = true;
+          }
+        }
+      }
+    }
+
     setFilteredCoins(filterCoins);
-  }, [coins, search]);
+  }, [coins, search, fav_coins]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,7 +172,6 @@ function HomeScreen() {
             {pageSize}
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => setPageSize(200)}>200</Dropdown.Item>
             <Dropdown.Item onClick={() => setPageSize(100)}>100</Dropdown.Item>
             <Dropdown.Item onClick={() => setPageSize(50)}>50</Dropdown.Item>
             <Dropdown.Item onClick={() => setPageSize(10)}>10</Dropdown.Item>
@@ -197,6 +222,7 @@ function HomeScreen() {
                   <Coin
                     _id={coin.market_cap_rank}
                     key={coin.id}
+                    coin_id={coin.id}
                     name={coin.name}
                     price={coin.current_price}
                     symbol={coin.symbol}
@@ -208,6 +234,7 @@ function HomeScreen() {
                     circulatingsupply={coin.circulating_supply}
                     graphdata={coin.sparkline_in_7d}
                     code={currencyCode}
+                    isFav={coin.isFav}
                   />
                 );
               })}
