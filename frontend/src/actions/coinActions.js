@@ -38,12 +38,10 @@ export const listFavCoins = (currency, favcoin) => async (dispatch) => {
     dispatch({ type: FAV_COIN_DATA_REQUEST });
 
     const fav_coins = Array.prototype.map
-    .call(favcoin, function (item) {
-      return item.coin;
-    })
-    .join(",")
-
-    console.log(fav_coins)
+      .call(favcoin, function (item) {
+        return item.coin;
+      })
+      .join(",");
 
     const { data } = await axios.get(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&ids=bitcoin&sparkline=true&price_change_percentage=7d&ids=${fav_coins}`

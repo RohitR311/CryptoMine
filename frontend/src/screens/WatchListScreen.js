@@ -13,7 +13,8 @@ function WatchListScreen() {
   const [currencyCode, setCurrencyCode] = useState("USD");
   const dispatch = useDispatch();
   const coinList = useSelector((state) => state.coinList);
-  const { error, loading, fav_coins, watchlist } = coinList;
+  const { error, loading, fav_coins } = coinList;
+  let { watchlist } = coinList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -26,7 +27,8 @@ function WatchListScreen() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(listFavCoins(currencyCode, fav_coins));
+    if (fav_coins.length > 0) dispatch(listFavCoins(currencyCode, fav_coins));
+    else watchlist = [];
   }, [dispatch, currencyCode, fav_coins]);
 
   useEffect(() => {
