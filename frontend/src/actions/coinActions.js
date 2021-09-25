@@ -3,6 +3,9 @@ import {
   COIN_DATA_REQUEST,
   COIN_DATA_SUCCESS,
   FAV_COINS,
+  FAV_COIN_DATA_FAILURE,
+  FAV_COIN_DATA_REQUEST,
+  FAV_COIN_DATA_SUCCESS,
   GET_FAV_COINS,
   REMOVE_FAV_COIN,
 } from "../constants/coinConstants";
@@ -23,6 +26,36 @@ export const listCoins = (page, currency, pageSize) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: COIN_DATA_FAILURE,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+export const listFavCoins = (currency, favcoin) => async (dispatch) => {
+  try {
+    dispatch({ type: FAV_COIN_DATA_REQUEST });
+
+    const fav_coins = Array.prototype.map
+    .call(favcoin, function (item) {
+      return item.coin;
+    })
+    .join(",")
+
+    console.log(fav_coins)
+
+    const { data } = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&ids=bitcoin&sparkline=true&price_change_percentage=7d&ids=${fav_coins}`
+    );
+
+    dispatch({
+      type: FAV_COIN_DATA_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FAV_COIN_DATA_FAILURE,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

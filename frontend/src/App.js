@@ -6,6 +6,7 @@ import CategoryScreen from "./screens/CategoryScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import WatchListScreen from "./screens/WatchListScreen";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/category" component={CategoryScreen} />
+          <Route path="/watchlist" component={WatchListScreen} />
         </Container>
       </main>
       <Footer />

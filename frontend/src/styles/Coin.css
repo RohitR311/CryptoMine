@@ -98,8 +98,12 @@ tr {
   cursor: pointer;
 }
 
-.MuiSvgIcon-root:hover {
+.MuiSvgIcon-root {
   color: goldenrod !important;
+}
+
+.MuiSvgIcon-root:hover {
+  color: rgb(243, 112, 36) !important;
 }
 
 
