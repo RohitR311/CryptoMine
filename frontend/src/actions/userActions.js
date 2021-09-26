@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DELETE_FAV_COINS } from "../constants/coinConstants";
 import {
   USER_LOGIN_FAILURE,
   USER_LOGIN_REQUEST,
@@ -47,6 +48,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: DELETE_FAV_COINS });
   localStorage.removeItem("userInfo");
 };
 

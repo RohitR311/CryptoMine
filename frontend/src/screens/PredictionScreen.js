@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
-import Coin from "../components/Coin";
+import "../styles/HomeScreen.css";
 import { Form, Table } from "react-bootstrap";
-import { getFavCoins, listFavCoins } from "../actions/coinActions";
+import {
+  getCryptoCoins,
+  getFavCoins,
+  listCryptoCoins,
+} from "../actions/coinActions";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import SelectCurrency from "react-select-currency";
+import Tabs from "../components/Tabs";
+import Prediction from "../components/Prediction";
 
-function WatchListScreen() {
+function PredictionScreen() {
   const [search, setSearch] = useState("");
   const [currencyCode, setCurrencyCode] = useState("USD");
   const dispatch = useDispatch();
   const coinList = useSelector((state) => state.coinList);
-  const { error, loading, fav_coins } = coinList;
-  let { watchlist } = coinList;
+  const { error, loading, cryptolist, fav_coins, crypto_coins } = coinList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -23,22 +28,26 @@ function WatchListScreen() {
 
   useEffect(() => {
     if (userInfo) dispatch(getFavCoins());
-  }, [dispatch]);
+  }, [dispatch, userInfo]);
 
   useEffect(() => {
-    if (fav_coins.length) dispatch(listFavCoins(currencyCode, fav_coins));
-    else watchlist = [];
-  }, [dispatch, currencyCode, fav_coins]);
+    dispatch(getCryptoCoins());
+  }, []);
 
   useEffect(() => {
-    for (let coin of watchlist) {
+    if (crypto_coins.length)
+      dispatch(listCryptoCoins(currencyCode, crypto_coins));
+  }, [dispatch, currencyCode, crypto_coins]);
+
+  useEffect(() => {
+    for (let coin of cryptolist) {
       coin["isFav"] = false;
     }
-    setFilteredCoins(watchlist);
-  }, [userInfo, fav_coins]);
+    setFilteredCoins(cryptolist);
+  }, [userInfo, fav_coins, cryptolist]);
 
   useEffect(() => {
-    let filterCoins = watchlist.filter((coin) =>
+    let filterCoins = cryptolist.filter((coin) =>
       coin.name.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -53,17 +62,15 @@ function WatchListScreen() {
     }
 
     setFilteredCoins(filterCoins);
-  }, [watchlist, search, fav_coins]);
+    console.log("filtercoins -> " + filterCoins.length);
+  }, [cryptolist, search, fav_coins]);
 
   const columns = [
     "market_cap_rank",
     "name",
     "current_price",
-    "price_change_percentage_24h",
-    "price_change_percentage_7d_in_currency",
     "market_cap",
     "total_volume",
-    "circulating_supply",
   ];
 
   const sortColumn = (i) => {
@@ -96,15 +103,16 @@ function WatchListScreen() {
   return (
     <div className="coin-app">
       <div className="coin-search">
-        <h2 className="coin-text">Main Watch List</h2>
+        <h2 className="coin-text">Cryptocurrency Market Cap Prediction Page</h2>
         <p className="coin-global">
-          Keep track of your favourite cryptocurrencies.
+          The total available cryptocurrencies for prediction are{" "}
+          <span className="coin-percent green">{crypto_coins.length}</span>.
         </p>
         <Form className="search-box d-flex">
           <Form.Control
             type="text"
             name="q"
-            placeholder="Search in Current Page"
+            placeholder="Search"
             onChange={(e) => setSearch(e.target.value)}
             className="search-bar"
           ></Form.Control>
@@ -119,13 +127,7 @@ function WatchListScreen() {
           flexWrap: "wrap",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "25px",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center" }}>
           <label>Select currency: </label> &nbsp;
           <SelectCurrency
             value={currencyCode}
@@ -133,12 +135,11 @@ function WatchListScreen() {
           />
         </div>
       </div>
+      <Tabs active="prediction" />
       {loading ? (
         <Loader />
       ) : error ? (
         <ErrorMessage variant="danger">{error}</ErrorMessage>
-      ) : filteredCoins.length === 0 ? (
-        <ErrorMessage variant="info">You have no favourite coins.</ErrorMessage>
       ) : (
         <>
           <Table striped hover responsive>
@@ -155,27 +156,19 @@ function WatchListScreen() {
                   Price
                 </th>
                 <th className="sort-link" onClick={() => sortColumn(3)}>
-                  24h%
-                </th>
-                <th className="sort-link" onClick={() => sortColumn(4)}>
-                  7d%
-                </th>
-                <th className="sort-link" onClick={() => sortColumn(5)}>
                   Market Cap
                 </th>
-                <th className="sort-link" onClick={() => sortColumn(6)}>
+                <th className="sort-link" onClick={() => sortColumn(4)}>
                   Volume(24h)
                 </th>
-                <th className="sort-link" onClick={() => sortColumn(7)}>
-                  Circulating Supply
-                </th>
                 <th>Last 7 days</th>
+                <th>Predict</th>
               </tr>
             </thead>
             <tbody>
               {filteredCoins.map((coin) => {
                 return (
-                  <Coin
+                  <Prediction
                     _id={coin.market_cap_rank}
                     key={coin.id}
                     coin_id={coin.id}
@@ -185,11 +178,9 @@ function WatchListScreen() {
                     marketcap={coin.market_cap}
                     volume={coin.total_volume}
                     image={coin.image}
-                    pricechange24h={coin.price_change_percentage_24h}
-                    pricechange7d={coin.price_change_percentage_7d_in_currency}
-                    circulatingsupply={coin.circulating_supply}
-                    graphdata={coin.sparkline_in_7d}
                     code={currencyCode}
+                    pricechange7d={coin.price_change_percentage_7d_in_currency}
+                    graphdata={coin.sparkline_in_7d}
                     isFav={coin.isFav}
                   />
                 );
@@ -202,4 +193,4 @@ function WatchListScreen() {
   );
 }
 
-export default WatchListScreen;
+export default PredictionScreen;

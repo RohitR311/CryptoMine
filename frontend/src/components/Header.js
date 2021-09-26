@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../actions/userActions";
-// import SearchBox from "./SearchBox";
 import "../styles/Header.css";
 
 const Header = () => {
@@ -18,6 +17,7 @@ const Header = () => {
     if (window.confirm("Are you sure you wanna logout?")) {
       dispatch(logout());
       history.push("/");
+      // window.location.reload()
     }
   };
 
