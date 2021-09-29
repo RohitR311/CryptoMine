@@ -16,3 +16,6 @@ export const DELETE_FAV_COINS = "DELETE_FAV_COINS";
 export const FAV_COINS = "FAV_COINS";
 
 export const GET_CRYPTO_COINS = "GET_CRYPTO_COINS";
+export const GET_CRYPTO_COIN = "GET_CRYPTO_COIN";
+
+export const GET_PREDICTION = "GET_PREDICTION";

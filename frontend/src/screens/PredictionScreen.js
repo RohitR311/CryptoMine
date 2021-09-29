@@ -18,7 +18,8 @@ function PredictionScreen() {
   const [currencyCode, setCurrencyCode] = useState("USD");
   const dispatch = useDispatch();
   const coinList = useSelector((state) => state.coinList);
-  const { error, loading, cryptolist, fav_coins, crypto_coins } = coinList;
+  const { error, loading, cryptolist, fav_coins, crypto_coins, crypto_coin } =
+    coinList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -62,7 +63,6 @@ function PredictionScreen() {
     }
 
     setFilteredCoins(filterCoins);
-    console.log("filtercoins -> " + filterCoins.length);
   }, [cryptolist, search, fav_coins]);
 
   const columns = [

@@ -9,8 +9,10 @@ import {
   FAV_COIN_DATA_FAILURE,
   FAV_COIN_DATA_REQUEST,
   FAV_COIN_DATA_SUCCESS,
+  GET_CRYPTO_COIN,
   GET_CRYPTO_COINS,
   GET_FAV_COINS,
+  GET_PREDICTION,
   REMOVE_FAV_COIN,
 } from "../constants/coinConstants";
 import axios from "axios";
@@ -100,6 +102,28 @@ export const getCryptoCoins = () => async (dispatch) => {
 
   dispatch({ type: GET_CRYPTO_COINS, payload: data });
 };
+
+export const getCryptoCoinById = (id) => async (dispatch) => {
+  const { data } = await axios.get(`http://127.0.0.1:8000/api/users/${id}/`);
+
+  dispatch({ type: GET_CRYPTO_COIN, payload: data });
+};
+
+export const getCryptoCoinPrediction =
+  (file_n, date_p, open_p, close_p, volume) => async (dispatch) => {
+    const { data } = await axios.post(
+      `http://127.0.0.1:8000/api/users/myprediction/`,
+      {
+        file: file_n,
+        date_p: date_p,
+        open_p: open_p,
+        close_p: close_p,
+        volume: volume,
+      }
+    );
+
+    dispatch({ type: GET_PREDICTION, payload: data });
+  };
 
 export const getFavCoins = () => async (dispatch, getState) => {
   const {

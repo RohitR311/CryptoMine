@@ -1,3 +1,4 @@
+from .regression import regression
 from django.http import response
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -58,6 +59,27 @@ def getCsvs(request):
     coins = Crypto.objects.all()
     serializer = CryptoSerializer(coins, many=True)
     return Response(serializer.data)
+
+@api_view(["GET"])
+def getCsvById(request, pk):
+    coin = Crypto.objects.get(name=pk)
+    serializer = CryptoSerializer(coin, many=False)
+    return Response(serializer.data)
+
+@api_view(["GET", "POST"])
+def getPredictionValue(request):
+    data = request.data
+
+    csv_file = data["file"]
+    date_p = data["date_p"]
+    open_p = data["open_p"]
+    close_p = data["close_p"]
+    volume = data["volume"]
+
+    prediction = regression(csv_file, date_p, open_p, close_p, volume)
+
+    return Response(prediction)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])

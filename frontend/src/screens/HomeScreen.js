@@ -33,6 +33,20 @@ function HomeScreen() {
     if (userInfo) dispatch(getFavCoins());
   }, [dispatch]);
 
+  useEffect(async () => {
+    const {data} = await axios.post(
+      `http://127.0.0.1:8000/api/users/myprediction/`,
+      {
+        file: "https://res.cloudinary.com/dyuekopnr/raw/upload/v1/Crypto/files/coin_Bitcoin_btkgi1.csv",
+        date_p: "2021-08-20",
+        open_p: 47261.41,
+        close_p: 47328.2,
+        volume: 43909845642,
+      }
+    );
+    console.log(data[0]);
+  }, []);
+
   useEffect(() => {
     dispatch(listCoins(page, currencyCode, pageSize));
   }, [dispatch, page, currencyCode, pageSize]);
@@ -42,7 +56,7 @@ function HomeScreen() {
       coin["isFav"] = false;
     }
     setFilteredCoins(coins);
-  }, [userInfo, fav_coins])
+  }, [userInfo, fav_coins]);
 
   useEffect(() => {
     let filterCoins = coins.filter((coin) =>
@@ -50,7 +64,6 @@ function HomeScreen() {
     );
 
     if (fav_coins.length) {
-      
       for (let fav of fav_coins) {
         for (let coin of filterCoins) {
           if (fav.coin === coin.id) {

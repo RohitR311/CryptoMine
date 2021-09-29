@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Button } from "react-bootstrap";
 import ChartProg from "./ChartProg";
+import PredictionInput from "./PredictionInput";
 // import "../starability.min.css";
 
 const Prediction = ({
@@ -71,9 +72,7 @@ const Prediction = ({
       )}
 
       <td className="predict-btn">
-        <Button type="submit" variant="info" className="p-2">
-          Predict
-        </Button>
+        <PredictionInput coin_id={coin_id}/>
       </td>
     </tr>
   );

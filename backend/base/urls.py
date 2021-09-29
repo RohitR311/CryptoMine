@@ -11,4 +11,6 @@ urlpatterns = [
     path("cryptos/", getCsvs, name="coins"),
     path("create/", createFavCoin, name="create_watchlist"), 
     path("mywatchlist/", getMyFavCoins, name="watchlist"), 
+    path("myprediction/", getPredictionValue, name="prediction"), 
+    path("<str:pk>/", getCsvById, name="coin")
 ]

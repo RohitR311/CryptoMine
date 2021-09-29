@@ -13,6 +13,8 @@ import {
   GET_FAV_COINS,
   REMOVE_FAV_COIN,
   DELETE_FAV_COINS,
+  GET_CRYPTO_COIN,
+  GET_PREDICTION,
 } from "../constants/coinConstants";
 
 export const coinListReducer = (
@@ -67,6 +69,12 @@ export const coinListReducer = (
 
     case GET_CRYPTO_COINS:
       return { ...state, crypto_coins: action.payload };
+
+    case GET_CRYPTO_COIN:
+      return { ...state, crypto_coin: action.payload };
+
+    case GET_PREDICTION:
+      return { ...state, crypto_pred: action.payload };
 
     case GET_FAV_COINS:
       return { ...state, fav_coins: action.payload };
