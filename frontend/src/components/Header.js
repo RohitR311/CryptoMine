@@ -17,7 +17,6 @@ const Header = () => {
     if (window.confirm("Are you sure you wanna logout?")) {
       dispatch(logout());
       history.push("/");
-      // window.location.reload()
     }
   };
 
@@ -42,9 +41,9 @@ const Header = () => {
             <Nav className="nav">
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
+                  {/* <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
+                  </LinkContainer> */}
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
@@ -65,20 +64,10 @@ const Header = () => {
                 </LinkContainer>
               )}
 
-              {/* <SearchBox /> */}
-
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenue">
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <LinkContainer to="/admin/productlist">
-                    <NavDropdown.Item>Products</NavDropdown.Item>
-                  </LinkContainer>
-
-                  <LinkContainer to="/admin/orderlist">
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

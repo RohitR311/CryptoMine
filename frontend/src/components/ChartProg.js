@@ -2,13 +2,20 @@ import React from "react";
 
 import { Line } from "react-chartjs-2";
 
-const ChartProg = ({ dataprog, crypto, color }) => {
+const ChartProg = ({
+  dataprog,
+  crypto,
+  color,
+  legend = true,
+  // height = "75",
+  // width = "150",
+}) => {
   const data = {
-    labels: dataprog.price,
+    labels: dataprog?.price,
     datasets: [
       {
         label: JSON.stringify(crypto),
-        data: dataprog.price,
+        data: dataprog?.price,
         fill: true,
         backgroundColor:
           color === "red" ? "rgb(255,0,0,0.2)" : "rgb(0,128,0,0.2)",
@@ -23,7 +30,7 @@ const ChartProg = ({ dataprog, crypto, color }) => {
         intersect: false,
       },
       plugins: {
-        legend: false,
+        legend: legend,
       },
       scales: {
         x: {
@@ -31,7 +38,7 @@ const ChartProg = ({ dataprog, crypto, color }) => {
         },
 
         y: {
-          display: false,
+          display: legend,
         },
       },
     },

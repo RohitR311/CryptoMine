@@ -3,17 +3,39 @@ import thunk from "redux-thunk"; // lets you write async logic that interacts wi
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import {
+  userDeleteReducer,
+  userDetailsReducer,
+  userListReducer,
   userLoginReducer,
   userRegisterReducer,
+  userUpdateProfileReducer,
+  userUpdateReducer,
 } from "./reducers/userReducer";
-import { coinListReducer } from "./reducers/coinReducers";
+import {
+  coinListReducer,
+  cryptoCoinReducer,
+  cryptoCoinsListReducer,
+  cryptoCoinsReducer,
+  favCoinsReducer,
+  watchListReducer,
+} from "./reducers/coinReducers";
 import { categoryListReducer } from "./reducers/categoryReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userUpdate: userUpdateReducer,
+  userDelete: userDeleteReducer,
   coinList: coinListReducer,
-  categoryList: categoryListReducer
+  cryptoCoin: cryptoCoinReducer,
+  watchList: watchListReducer,
+  cryptoCoinsList: cryptoCoinsListReducer,
+  cryptoCoins: cryptoCoinsReducer,
+  favCoins: favCoinsReducer,
+  categoryList: categoryListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

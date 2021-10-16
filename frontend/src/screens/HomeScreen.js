@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Coin from "../components/Coin";
 import "../styles/HomeScreen.css";
 import { Dropdown, Form, Table } from "react-bootstrap";
-import { getFavCoins, listCoins } from "../actions/coinActions";
+import { getCoinById, getFavCoins, listCoins } from "../actions/coinActions";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +19,10 @@ function HomeScreen() {
   const [pageSize, setPageSize] = useState(10);
   const dispatch = useDispatch();
   const coinList = useSelector((state) => state.coinList);
-  const { error, loading, coins, fav_coins } = coinList;
+  const { error, loading, coins } = coinList;
+
+  const favCoins = useSelector((state) => state.favCoins);
+  const { fav_coins } = favCoins;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -32,20 +35,6 @@ function HomeScreen() {
   useEffect(() => {
     if (userInfo) dispatch(getFavCoins());
   }, [dispatch]);
-
-  useEffect(async () => {
-    const {data} = await axios.post(
-      `http://127.0.0.1:8000/api/users/myprediction/`,
-      {
-        file: "https://res.cloudinary.com/dyuekopnr/raw/upload/v1/Crypto/files/coin_Bitcoin_btkgi1.csv",
-        date_p: "2021-08-20",
-        open_p: 47261.41,
-        close_p: 47328.2,
-        volume: 43909845642,
-      }
-    );
-    console.log(data[0]);
-  }, []);
 
   useEffect(() => {
     dispatch(listCoins(page, currencyCode, pageSize));

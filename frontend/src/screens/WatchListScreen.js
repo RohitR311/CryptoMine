@@ -11,9 +11,12 @@ function WatchListScreen() {
   const [search, setSearch] = useState("");
   const [currencyCode, setCurrencyCode] = useState("USD");
   const dispatch = useDispatch();
-  const coinList = useSelector((state) => state.coinList);
-  const { error, loading, fav_coins } = coinList;
-  let { watchlist } = coinList;
+  const favCoins = useSelector((state) => state.favCoins);
+  const { fav_coins } = favCoins;
+
+  const watchList = useSelector((state) => state.watchList);
+  const { error, loading } = watchList;
+  let { watchlist } = watchList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -144,7 +147,7 @@ function WatchListScreen() {
           <Table striped hover responsive>
             <thead>
               <tr>
-                <th class="sort-link"></th>
+                <th className="sort-link"></th>
                 <th className="sort-link" onClick={() => sortColumn(0)}>
                   #
                 </th>

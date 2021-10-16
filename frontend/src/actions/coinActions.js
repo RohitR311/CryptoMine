@@ -2,6 +2,9 @@ import {
   COIN_DATA_FAILURE,
   COIN_DATA_REQUEST,
   COIN_DATA_SUCCESS,
+  COIN_INFO_FAILURE,
+  COIN_INFO_REQUEST,
+  COIN_INFO_SUCCESS,
   CRYPTO_COIN_DATA_FAILURE,
   CRYPTO_COIN_DATA_REQUEST,
   CRYPTO_COIN_DATA_SUCCESS,
@@ -39,6 +42,29 @@ export const listCoins = (page, currency, pageSize) => async (dispatch) => {
     });
   }
 };
+export const getCoinById = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: COIN_INFO_REQUEST });
+
+    const { data } = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/${id}?sparkline=true`
+    );
+
+    dispatch({
+      type: COIN_INFO_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: COIN_INFO_FAILURE,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
 export const listFavCoins = (currency, favcoin) => async (dispatch) => {
   try {
     dispatch({ type: FAV_COIN_DATA_REQUEST });

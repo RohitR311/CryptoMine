@@ -15,15 +15,14 @@ import {
   DELETE_FAV_COINS,
   GET_CRYPTO_COIN,
   GET_PREDICTION,
+  COIN_INFO_REQUEST,
+  COIN_INFO_SUCCESS,
+  COIN_INFO_FAILURE,
 } from "../constants/coinConstants";
 
 export const coinListReducer = (
   state = {
     coins: [],
-    fav_coins: [],
-    watchlist: [],
-    crypto_coins: [],
-    cryptolist: [],
   },
   action
 ) => {
@@ -41,6 +40,33 @@ export const coinListReducer = (
     case COIN_DATA_FAILURE:
       return { ...state, loading: false, error: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+export const cryptoCoinReducer = (state = { crypto: [] }, action) => {
+  switch (action.type) {
+    case COIN_INFO_REQUEST:
+      return { ...state, loading: true, crypto: [] };
+
+    case COIN_INFO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        crypto: action.payload,
+      };
+
+    case COIN_INFO_FAILURE:
+      return { ...state, loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const watchListReducer = (state = { watchlist: [] }, action) => {
+  switch (action.type) {
     case FAV_COIN_DATA_REQUEST:
       return { ...state, loading: true, watchlist: [] };
 
@@ -54,6 +80,13 @@ export const coinListReducer = (
     case FAV_COIN_DATA_FAILURE:
       return { ...state, loading: false, error: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+export const cryptoCoinsListReducer = (state = { cryptolist: [] }, action) => {
+  switch (action.type) {
     case CRYPTO_COIN_DATA_REQUEST:
       return { ...state, loading: true, cryptolist: [] };
 
@@ -67,6 +100,13 @@ export const coinListReducer = (
     case CRYPTO_COIN_DATA_FAILURE:
       return { ...state, loading: false, error: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+export const cryptoCoinsReducer = (state = { crypto_coins: [] }, action) => {
+  switch (action.type) {
     case GET_CRYPTO_COINS:
       return { ...state, crypto_coins: action.payload };
 
@@ -76,6 +116,13 @@ export const coinListReducer = (
     case GET_PREDICTION:
       return { ...state, crypto_pred: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+export const favCoinsReducer = (state = { fav_coins: [] }, action) => {
+  switch (action.type) {
     case GET_FAV_COINS:
       return { ...state, fav_coins: action.payload };
 

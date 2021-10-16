@@ -3,13 +3,12 @@ import "../styles/Coin.css";
 import getSymbolFromCurrency from "currency-symbol-map";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarIcon from "@material-ui/icons/Star";
-import { updateFavCoins } from "../actions/coinActions";
+import { getCoinById, updateFavCoins } from "../actions/coinActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { Button } from "react-bootstrap";
 import ChartProg from "./ChartProg";
 import PredictionInput from "./PredictionInput";
-// import "../starability.min.css";
+import { Link } from "react-router-dom";
 
 const Prediction = ({
   name,
@@ -33,6 +32,9 @@ const Prediction = ({
     if (userInfo) dispatch(updateFavCoins(coin_id));
     else history.push("/login");
   };
+  const getCryptoId = (id) => {
+    dispatch(getCoinById(id));
+  };
   return (
     <tr key={_id}>
       <td className="starability">
@@ -45,7 +47,7 @@ const Prediction = ({
       <td>{_id}</td>
       <td className="coin">
         <img src={image} alt="" />
-        <span>{name}</span> &nbsp; <span className="mt-1">{symbol}</span>
+        <Link to={`/crypto/${coin_id}`}><span onClick={() => getCryptoId(coin_id)} className='coin-name'>{name}</span></Link> &nbsp; <span className="mt-1">{symbol}</span>
       </td>
       <td>
         {getSymbolFromCurrency(code)}
@@ -63,11 +65,11 @@ const Prediction = ({
 
       {pricechange7d < 0 ? (
         <td>
-          <ChartProg dataprog={graphdata} crypto={name} color="red" />
+          <ChartProg dataprog={graphdata} crypto={name} color="red" legend={false} />
         </td>
       ) : (
         <td>
-          <ChartProg dataprog={graphdata} crypto={name} color="green" />
+          <ChartProg dataprog={graphdata} crypto={name} color="green" legend={false} />
         </td>
       )}
 

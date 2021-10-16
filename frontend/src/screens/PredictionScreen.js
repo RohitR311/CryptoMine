@@ -17,9 +17,16 @@ function PredictionScreen() {
   const [search, setSearch] = useState("");
   const [currencyCode, setCurrencyCode] = useState("USD");
   const dispatch = useDispatch();
-  const coinList = useSelector((state) => state.coinList);
-  const { error, loading, cryptolist, fav_coins, crypto_coins, crypto_coin } =
-    coinList;
+  const cryptoCoinsList = useSelector((state) => state.cryptoCoinsList);
+  const { error, loading, cryptolist } =
+    cryptoCoinsList;
+
+  const favCoins = useSelector((state) => state.favCoins);
+  const { fav_coins } = favCoins;
+
+  const cryptoCoins = useSelector((state) => state.cryptoCoins);
+  const { crypto_coins } =
+    cryptoCoins;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -145,7 +152,7 @@ function PredictionScreen() {
           <Table striped hover responsive>
             <thead>
               <tr>
-                <th class="sort-link"></th>
+                <th className="sort-link"></th>
                 <th className="sort-link" onClick={() => sortColumn(0)}>
                   #
                 </th>
