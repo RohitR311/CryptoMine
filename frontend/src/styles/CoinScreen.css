@@ -30,7 +30,10 @@ td {
   padding-left: 10px;
 }
 
-.coin-star {
-  width: 15px;
-  background-color: antiquewhite;
+
+.coin-star svg {
+  margin: 10px 10px 0 0;
+  background-color: beige;
+  border-radius: 6px;
+  cursor: pointer;
 }

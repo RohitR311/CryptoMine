@@ -7,6 +7,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import { Alert, Col, Row, Table } from "react-bootstrap";
 import {
   getCoinById,
+  getCryptoCoins,
   getFavCoins,
   updateFavCoins,
 } from "../actions/coinActions";
@@ -17,11 +18,15 @@ import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import StarIcon from "@material-ui/icons/Star";
 
 const CoinScreen = ({ match }) => {
+  const cryptoCoins = useSelector((state) => state.cryptoCoins);
+  const { crypto_coins } = cryptoCoins;
   const dispatch = useDispatch();
-  const cryptoCoin = useSelector((state) => state.cryptoCoin);
-  const { loading, error, crypto } = cryptoCoin;
 
   const [isFav, setIsFav] = useState(false);
+  const [predictable, setPredictable] = useState(false);
+
+  const cryptoCoin = useSelector((state) => state.cryptoCoin);
+  const { loading, error, crypto } = cryptoCoin;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -37,7 +42,17 @@ const CoinScreen = ({ match }) => {
   };
 
   useEffect(() => {
+    for (let i of crypto_coins) {
+      if (i.name === match.params.id) {
+        setPredictable(true);
+        break;
+      } else setPredictable(false);
+    }
+  }, [crypto_coins]);
+
+  useEffect(() => {
     if (userInfo) dispatch(getFavCoins());
+    dispatch(getCryptoCoins());
   }, [dispatch]);
 
   console.log(fav_coins);
@@ -78,6 +93,15 @@ const CoinScreen = ({ match }) => {
                     <span className="symbol">({crypto?.symbol})</span>
                   </h2>
                 </Col>
+                <Col md="auto">
+                  <div className="coin-star">
+                    {!isFav ? (
+                      <StarOutlineIcon onClick={() => redirectToLogin()} />
+                    ) : (
+                      <StarIcon onClick={() => redirectToLogin()} />
+                    )}
+                  </div>
+                </Col>
               </Row>
               <Row>
                 <Col md="auto">
@@ -88,15 +112,6 @@ const CoinScreen = ({ match }) => {
                 </Col>
                 <Col md="auto">
                   <small className="coin-data">Coin</small>
-                </Col>
-                <Col md="auto">
-                  <small className="coin-star">
-                    {!isFav ? (
-                      <StarOutlineIcon onClick={() => redirectToLogin()} />
-                    ) : (
-                      <StarIcon onClick={() => redirectToLogin()} />
-                    )}
-                  </small>
                 </Col>
               </Row>
             </Col>
@@ -295,7 +310,7 @@ const CoinScreen = ({ match }) => {
                 </Table>
               </Row>
               <Row>
-                <PredictionInput coin_id={crypto?.id} />
+                {predictable ? <PredictionInput coin_id={crypto?.id} /> : null}
               </Row>
             </Col>
           </Row>
